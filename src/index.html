@@ -1675,7 +1675,7 @@ xDV9yT1Orekjoe+MDw4pHqwmaJewit66Ql0QaX+DOTaZe4DitAFZxQaaEynKnJ6KCDeaQAtj3A7VkBtX
 Kc+/jyFrblyKCIkKbnPjSkT8HDGV5saVyBAtVHZz40Ik7HNTRtrcuBARF2tQbW5ciCR0mhvbIs2EcnNjWySh29zYFGnIK25KzY1Nkdziptzc2BKJUu7Qbm5sicQom2o3NzZEKqiu/DZpbmyIjIAHNBMZ7x4iTALjhcgVQSIl3v87w5vePcY/AQYAFYR6skFSqBUAAAAASUVORK5CYII="
                         alt="小米闪购">
                     <p>距离结束还有</p>
-                    <div class="countdown"><span>02</span><i>:</i><span>40</span><i>:</i><span>29</span></div>
+                    <div class="countdown"><span id="hour">02</span><i>:</i><span id="minute">40</span><i>:</i><span id="second">29</span></div>
                 </div>
 
 
@@ -3047,7 +3047,7 @@ Kc+/jyFrblyKCIkKbnPjSkT8HDGV5saVyBAtVHZz40Ik7HNTRtrcuBARF2tQbW5ciCR0mhvbIs2EcnNj
                     <a>问题反馈</a><span>|</span>
                     <a>Select Region</a><span>|</span>
                 </p>
-                <p>@<a>mi.com</a>" 京ICP证110507号 "<a>鄂ICP备20006245号</a><a>京公网安备11010802020134号 </a>
+                <p>@<a>mi.com</a>" 鄂ICP备20006245号 "<a >鄂ICP备20006245号</a><a>京公网安备11010802020134号 </a>
                     <a>京网文[2014]0059-0009号</a>
                     <br>
                     " 违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试"
@@ -3170,18 +3170,84 @@ Kc+/jyFrblyKCIkKbnPjSkT8HDGV5saVyBAtVHZz40Ik7HNTRtrcuBARF2tQbW5ciCR0mhvbIs2EcnNj
 
         });
 
+//回到顶部变速
+
+        function getScroolTop(){
+            var sTop;
+            if(document.compatMode == "BackCompat")
+                sTop = document.body.scrolltop;
+            else
+                sTop = document.documentElement.scrollTop == 0? document.body.scrollTop:document.documentElement.scrollTop;
+            return sTop;
+        }
+
         $(window).scroll(function () {
             var top = $(window).scrollTop();
             if (top > 110) $(".BackToTop").show();
             else $(".BackToTop").hide();
         });
+        var btn = document.getElementsByClassName("BackToTop")[0];
+        btn.onclick = function(){
+            var timer = setInterval(function(){
+                var backtop = getScroolTop();
+
+                var spendtop = backtop / 10;
+                setScroolTop(backtop - spendtop);
+                if(backtop == 0){
+                    clearInterval(timer)
+                }
+            },30)
+        }
+
+        function setScroolTop(top){
+            if(document.compatMode == "BackCompat")
+                document.body.scrollTop = top;
+            else
+                if(document.documentElement.scrollTop == 0)
+                    document.body.scrollTop = top;
+                else 
+                    document.documentElement.scrollTop = top;
+        }
+
+
+
+        //回到顶部
+        // $(function () {
+        //     $(".BackToTop").click(function () {
+        //         $("html,body").animate({
+        //             scrollTop: 0
+        //         }, 500);
+        //     });
+        // })
+
+
+//倒计时
+
+    var intDiff = parseInt(6000); //倒计时总秒数量
+        function timer(intDiff) {
+            window.setInterval(function () {
+                var hour = 0,
+                    minute = 0,
+                    second = 0; //时间默认值        
+                if (intDiff > 0) {
+                    hour = Math.floor(intDiff / (60 * 60));
+                    minute = Math.floor(intDiff / 60) - (hour * 60);
+                    second = Math.floor(intDiff) - (hour * 60 * 60) - (minute * 60);
+                }
+                if (hour <= 9) hour = '0' + hour;
+                if (minute <= 9) minute = '0' + minute;
+                if (second <= 9) second = '0' + second;
+                $('#hour').html(hour);
+                $('#minute').html(minute);
+                $('#second').html(second);
+                intDiff--;
+            }, 1000);
+        }
         $(function () {
-            $(".BackToTop").click(function () {
-                $("html,body").animate({
-                    scrollTop: 0
-                }, 500);
-            });
-        })
+            timer(intDiff);
+        });
+
+
     </script>
 
 
